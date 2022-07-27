@@ -1,30 +1,27 @@
-from multiprocessing import Process
-import os
+from multiprocessing import Process, Array, Lock, Value, Queue
 import time
 
-def function1(x):
-    x = pow(x,2) * 3 + x * 5 + 27
-    time.sleep(0.1)
+def function1_add2(Arr,q):
+    for n in Arr:
+        q.put(n+1)
 
-def function2(x):
-    x = pow(x,2) * 6 + x - 100
-    time.sleep(0.1)
+def function2_divdeby2(Arr,q):
+    for n in Arr:
+        q.put(n/2)
 
-processes = []
-nr_of_processes = os.cpu_count()
+if __name__ == "__main__":
 
-#Creating processes:
+    q = Queue()
+    Arr = Array("i", [0,100,200])
 
-for i in range(nr_of_processes):
-    p1 = Process(target = function1)
-    processes.append(p1)
+    P1 = Process(target=function1_add2(Arr, q))
+    P2 = Process(target=function2_divdeby2(Arr, q))
 
-for j in range(nr_of_processes):
-    p2 = Process(target = function2)
-    processes.append(p2)
+    P1.start()
+    P2.start()
 
-for p1 in processes:
-    p1.start()
-    p1.join()
+    P1.join()
+    P2.join()
 
-#or I could have started the second process.
+    while not q.empty():
+        print(q.get())
