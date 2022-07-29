@@ -13,7 +13,7 @@ def running(red):
     for comment in red.subreddit("test").comments(limit=25):
         if "asshole" in comment.body:
             print("Bad word used!")
-            comment.reply("Please don't use bad words!")
+            comment.reply("This is a bot! Please don't use any bad words!")
             
  #This bot replies to comments on posts from the subreddit "test" with "Please don't use bad words!" whenever somebody comments "asshole".
 
