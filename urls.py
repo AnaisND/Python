@@ -18,8 +18,7 @@ from django.urls import path
 from pythonproj.views import index, wordcounter
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("pythonproj/", index),
-    path("pythonproj/", wordcounter),
+    path('', views.index, name='index'),
+    path('counter', views.counter, name='counter')
 ]
 
